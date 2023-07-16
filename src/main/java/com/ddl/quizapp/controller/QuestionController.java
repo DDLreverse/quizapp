@@ -1,7 +1,8 @@
 package com.ddl.quizapp.controller;
 
-import com.ddl.quizapp.Question;
+import com.ddl.quizapp.model.Question;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.ddl.quizapp.service.QuestionService;
 
@@ -13,19 +14,18 @@ public class QuestionController {
     @Autowired
     QuestionService questionService;
     @GetMapping("allQuestions")
-    public List<Question> getAllQuestions() {
+    public ResponseEntity<List<Question>> getAllQuestions() {
         // Get questions from Service Layer
         return questionService.getAllQuestions();
     }
 
     @GetMapping("category/{category}") // value of category will be assigned to the parameter
-    public List<Question> getQuestionByCategory(@PathVariable String category) {
+    public ResponseEntity<List<Question>> getQuestionByCategory(@PathVariable String category) {
         return questionService.getQuestionByCategory(category);
     }
 
     @PostMapping("add")
-    public String addQuestion(@RequestBody Question question) {
-        questionService.addQuestion(question);
-        return "success";
+    public ResponseEntity<String> addQuestion(@RequestBody Question question) {
+        return questionService.addQuestion(question);
     }
 }
